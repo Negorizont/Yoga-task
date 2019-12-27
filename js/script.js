@@ -104,7 +104,7 @@ window.addEventListener('DOMContentLoaded', function() {
     loading: 'Загрузка',
     success: 'Спасибо! Скоро мы с вами свяжемся!',
     failure: 'Что-то пошло не так...'
-  };
+  }; 
 
   let form = document.querySelector('.main-form'),
       input = form.getElementsByTagName('input'),
@@ -144,5 +144,51 @@ window.addEventListener('DOMContentLoaded', function() {
       input[i].value = '';
     }
 
+  });
+
+  // Slider
+  let sliderIndex = 1,
+      slides = document.querySelectorAll('.slider-item'),
+      prev = document.querySelector('.prev'),
+      next = document.querySelector('.next'),
+      dotWrap = document.querySelector('.slider-dots'),
+      dots = document.querySelectorAll('.dot');
+
+  showSlides(sliderIndex);
+  function showSlides(n) {
+    if (n > slides.length) {
+      sliderIndex = 1;
+    }
+    if (n < 1) {
+      sliderIndex = slides.length;
+    }
+
+    slides.forEach((item) => item.style.display = 'none');
+    dots.forEach((item) => item.classList.remove('dot-active'));
+
+    slides[sliderIndex - 1].style.display = 'block';
+    dots[sliderIndex - 1].classList.add('dot-active');
+  }
+
+  function plusSlides(n) {
+    showSlides(sliderIndex += n);
+  }
+  function currentSlide(n) {
+    showSlides(sliderIndex = n);
+  }
+
+  prev.addEventListener('click', function() {
+    plusSlides(-1);
+  });
+  next.addEventListener('click', function() {
+    plusSlides(1);
+  });
+
+  dotWrap.addEventListener('click', function(event) {
+    for(let i = 1; i < dots.length + 1; i++) {
+      if (event.target.classList.contains("dot") && event.target == dots[i-1]) {
+        currentSlide(i);
+      }
+    }
   });
 });
